@@ -25,7 +25,6 @@ play.addEventListener("click", () => {
     }
 });
 
-// trial
 document.addEventListener("DOMContentLoaded", function () {
     const lyricsButton = document.querySelector(".lyrics");
     const closeButton = document.getElementById("closeLyrics");
@@ -37,5 +36,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
     closeButton.addEventListener("click", function () {
         lyricsBox.style.display = "none";
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    const body = document.body;
+    const box = document.querySelector(".box");
+
+    // Check Local Storage for Theme Preference
+    if (localStorage.getItem("theme") === "dark") {
+        body.classList.add("dark-mode");
+        box.classList.add("dark-box");
+        themeToggleBtn.innerText = "☀ Change Theme";
+    }
+
+    themeToggleBtn.addEventListener("click", () => {
+        body.classList.toggle("dark-mode");
+        box.classList.toggle("dark-box");
+
+        // Save Theme Preference
+        if (body.classList.contains("dark-mode")) {
+            localStorage.setItem("theme", "dark");
+            themeToggleBtn.innerText = "☀ Change Theme";
+        } else {
+            localStorage.setItem("theme", "light");
+            themeToggleBtn.innerText = "🌙 Change Theme";
+        }
     });
 });

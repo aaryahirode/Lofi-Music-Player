@@ -68,18 +68,18 @@ svg {
 }
 .plus {
     margin-top: 10px;
-    margin-left: 60px;
+    margin-left: 50px;
     position: relative;
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: 140px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .btn {
     position: absolute;
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     background-color: rgb(100, 64, 149,0.5);
     border: none;
     border-radius: 5px;
@@ -98,15 +98,14 @@ svg {
     bottom: 5px;
 }
 .left { 
-    left: 5px;
+    left: 2px;
 }
 .right { 
-    right: 5px;
+    right: 2px;
 }
 .top img, .bottom img{
     height: 30px;
     width: 30px;
-    padding-right: 2px;
     padding-bottom: 5px;
 }
 .circles {
@@ -220,7 +219,6 @@ svg {
     display: block;
 }
 
-/* trial */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Lora:wght@400;600&display=swap');
 
 .lyrics-box {
@@ -283,4 +281,37 @@ svg {
 .back-btn:hover {
     color: #4a148c;
     transform: scale(1.1);
+}
+
+.theme-btn {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    background-color: #642e9d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.theme-btn:hover {
+    background-color: #4c2374;
+}
+
+.dark-mode {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.dark-box {
+    background-color: #4e3f5c;
+    box-shadow: 30px -30px 10px rgba(25, 10, 40, 0.5);
+}
+
+
+.dark-mode .btn,.dark-mode button{
+    background-color: #c3a2e2;
 }
