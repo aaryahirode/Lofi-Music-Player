@@ -156,7 +156,7 @@ svg {
 
 .pink_cloud {
     position: absolute;
-    top: 20px;
+    top: 100px;
     left: 70px;
     width: 15%;
     height: auto;
@@ -164,7 +164,6 @@ svg {
     justify-content: center;
     align-items: center;
 }
-
 #cloud {
     width: 100%;
     object-fit: contain;
@@ -180,7 +179,6 @@ svg {
     justify-content: center;
     align-items: center;
 }
-
 #rabbit {
     width: 100%;
     object-fit: contain;
@@ -196,7 +194,6 @@ svg {
     justify-content: center;
     align-items: center;
 }
-
 #star {
     width: 100%;
     object-fit: contain;
@@ -212,11 +209,36 @@ svg {
     justify-content: center;
     align-items: center;
 }
-
 #cat {
     width: 100%;
     object-fit: contain;
     display: block;
+}
+
+.search-bar {
+    position: absolute;
+    top: 30px;
+    left: 45px;
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 25px;
+    width: 30%;
+    height: 40px;
+    border: 2px solid #000000;
+}
+.search-bar svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+.search-bar input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Lora:wght@400;600&display=swap');
@@ -305,13 +327,13 @@ svg {
     background-color: #1e1e1e;
     color: white;
 }
-
 .dark-box {
     background-color: #4e3f5c;
     box-shadow: 30px -30px 10px rgba(25, 10, 40, 0.5);
 }
-
-
 .dark-mode .btn,.dark-mode button{
     background-color: #c3a2e2;
+}
+.dark-mode .search-bar{
+    border-color: yellow;
 }
