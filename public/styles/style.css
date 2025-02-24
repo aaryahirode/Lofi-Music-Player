@@ -66,6 +66,35 @@ svg {
     width: 100%;
     display: flex;
 }
+
+#progressBar {
+    -webkit-appearance: none; /* Remove default styling */
+    appearance: none;
+    width: 55%; 
+    height: 4px; /* Thin black line */
+    background: black; /* Black line */
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Custom Thumb (Circle) - WebKit Browsers (Chrome, Safari) */
+#progressBar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px; /* Circle size */
+    height: 12px;
+    background: black; /* Black circle */
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#progressBar::-webkit-slider-thumb:hover {
+    transform: scale(1.2); /* Slightly bigger when hovered */
+}
+
 .plus {
     margin-top: 10px;
     margin-left: 50px;
@@ -107,6 +136,10 @@ svg {
     height: 30px;
     width: 30px;
     padding-bottom: 5px;
+}
+.lower-box {
+    width: 100%;
+    display: flex;
 }
 .circles {
     margin-top: 5px;
@@ -237,8 +270,10 @@ svg {
     border: none;
     background: transparent;
     outline: none;
-    font-size: 16px;
+    font-size: 20px;
     width: 100%;
+    color: #6a1b9a;
+    font-weight: 600;
 }
 #search-btn {
     height: 30px;
@@ -343,3 +378,4 @@ svg {
 .dark-mode .search-bar{
     border-color: yellow;
 }
+

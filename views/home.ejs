@@ -9,39 +9,52 @@
 </head>
 <body>
     <div class="container">
-        <div class="search-bar">
+        <form class="search-bar" method="POST" action="/submit">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                 <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
             </svg>
-            <input type="text" placeholder="Search Song">
-            <button id="search-btn">Search</button>
-        </div>        
+            <input name="songname" type="text" id="search-bar" placeholder="Search Song">
+            <button id="search-btn" type="submit">Search</button>
+        </form>       
         <div class="pink_cloud">
             <img id="cloud" src="images/pink_cloud.png" alt="Pink Cloud">
         </div>
         <div class="box">
             <div class="album">
-
+                <% if (songOne && songOne.album && songOne.album.images.length > 0) { %>
+                    <img class="start-image" src="<%= songOne.album.images[0].url %>">
+                <% } else { %>
+                    <img class="start-image" src="images/cover-unavailable.png" alt="Default Album Cover">
+                <% } %>
             </div>
             <div class="song">
-                <h1>Y U Gotta B Like That</h1>
+                <% if (songOne) { %>
+                    <h1><%= songOne.name %></h1>
+                <% } else { %>
+                    <h1>Song Name</h1>
+                <% } %>
             </div>
             <div class="singer">
-                <h3>Audrey Mika</h3>
+                <% if (songOne && songOne.artists.length > 0) { %>
+                    <h3><%= songOne.artists[0].name %></h3>
+                <% } else { %>
+                    <h3>Artist Name</h3>
+                <% } %>
             </div>
             <div class="player">
                 <svg class="play" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.<path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80L0 432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg>
-                <p>0:00</p>
-                <p>---------@-----------------------------------</p>
-                <p>2:34</p>
+                <p id="currentTime">0:00</p>
+                <input type="range" id="progressBar" value="0" min="0" step="0.1">
+                <p id="duration">0:00</p>
             </div>
-            <div class="controls">
-                <div class="plus">
-                    <button class="btn top"><img src="images/volume-high.png"></button>
-                    <button class="btn left"><img src="images/previous.png"></button>
-                    <button class="btn right"><img src="images/next.png"></button>
-                    <button class="btn bottom"><img src="images/volume-low.png"></button>
-                  </div>
+            <audio id="audioPlayer" src="<%= songOne && songOne.preview_url ? songOne.preview_url : '' %>"></audio>
+            <div class="lower-box">
+                <div class="plus">                   
+                    <button class="btn top" id="volumeUp"><img src="images/volume-high.png"></button>
+                    <button class="btn left" id="prevTrack"><img src="images/previous.png"></button>
+                    <button class="btn right" id="nextTrack"><img src="images/next.png"></button>
+                    <button class="btn bottom" id="volumeDown"><img src="images/volume-low.png"></button>
+                </div>
                 <div class="circles">
                     <button class="like">
                         <svg id="unliked" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8l0-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5l0 3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20-.1-.1s0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5l0 3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2l0-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z"/></svg>

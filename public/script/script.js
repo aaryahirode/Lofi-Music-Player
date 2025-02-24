@@ -6,6 +6,12 @@ const play=document.querySelector(".play");
 const playSVG = `<svg id="play" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80L0 432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg>`
 const pauseSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M48 64C21.5 64 0 85.5 0 112L0 400c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48L48 64zm192 0c-26.5 0-48 21.5-48 48l0 288c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48l-32 0z"/></svg>`
 
+const audio = document.getElementById("audioPlayer");
+
+const progressBar = document.getElementById("progressBar");
+const currentTimeDisplay = document.getElementById("currentTime");
+const durationDisplay = document.getElementById("duration");
+
 like.addEventListener("click", () => {
     if (like.classList.contains("liking")) {
         like.innerHTML = unlikedSVG;
@@ -16,12 +22,20 @@ like.addEventListener("click", () => {
     }
 });
 play.addEventListener("click", () => {
-    if (play.classList.contains("playing")) {
+    if (!audio.src || audio.src === window.location.href) {
+        alert("No audio file selected!");
+        return;
+    }
+
+    if (audio.paused || audio.currentTime === 0) {
+        audio.play().then(() => {
+            play.innerHTML = pauseSVG;
+            play.classList.add("playing");
+        }).catch(error => console.error("Playback failed:", error));
+    } else {
+        audio.pause();
         play.innerHTML = playSVG;
         play.classList.remove("playing");
-    } else {
-        play.innerHTML = pauseSVG;
-        play.classList.add("playing");
     }
 });
 
@@ -65,3 +79,66 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const audio = document.getElementById("audioPlayer");
+    const volumeUp = document.getElementById("volumeUp");
+    const volumeDown = document.getElementById("volumeDown");
+
+    // Set initial volume to 50%
+    audio.volume = 0.5;
+
+    // Function to update volume display
+    const updateVolumeDisplay = () => {
+        console.log(`🔊 Volume: ${Math.round(audio.volume * 100)}%`);
+    };
+
+    // Function to increase volume
+    volumeUp.addEventListener("click", () => {
+        if (audio.volume < 1.0) {
+            audio.volume = Math.min(1.0, audio.volume + 0.1);
+            updateVolumeDisplay();
+        }
+    });
+
+    // Function to decrease volume
+    volumeDown.addEventListener("click", () => {
+        if (audio.volume > 0.0) {
+            audio.volume = Math.max(0.0, audio.volume - 0.1);
+            updateVolumeDisplay();
+        }
+    });
+});
+
+audio.addEventListener("loadedmetadata", () => {
+    console.log("Audio Duration:", audio.duration); // Debugging
+    if (!isNaN(audio.duration)) {
+        progressBar.max = audio.duration;
+        durationDisplay.textContent = formatTime(audio.duration);
+    }
+});
+
+// Update slider as audio plays
+audio.addEventListener("timeupdate", () => {
+    progressBar.value = audio.currentTime;
+    currentTimeDisplay.textContent = formatTime(audio.currentTime);
+});
+
+// Allow user to seek
+progressBar.addEventListener("input", () => {
+    audio.currentTime = progressBar.value;
+});
+
+// Reset play button when audio ends
+audio.addEventListener("ended", () => {
+    play.innerHTML = playSVG;
+    play.classList.remove("playing");
+});
+
+// Format time (e.g., 2:34)
+function formatTime(time) {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60).toString().padStart(2, "0");
+    return `${minutes}:${seconds}`;
+}
