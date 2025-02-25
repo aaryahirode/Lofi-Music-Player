@@ -1,4 +1,5 @@
 import express from "express"
+import axios from "axios";
 
 const app = express();
 const PORT = 3000;
@@ -9,22 +10,16 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
-app.get("/", async (req, res) => {
-    try {
-        const songOne = {
-            artists: [{ name: "Default Artist" }],
-            album: {
-                images: [
-                    { url: '/images/cover-unavailabe.png' }
-                ]
-            }
-        };
-        
-        res.render("home", { songOne }); // Pass songOne to EJS
-    } catch (error) {
-        console.error("Error fetching song details:", error);
-        res.render("home", { songOne: null }); // Ensure songOne is always defined
-    }
+app.get("/", (req, res) => {
+    const songOne = {
+        name: "Song Name",  
+        artists: [{ name: "Artist name" }],
+        album: {
+            images: [{ url: "/images/cover-unavailable.png" }]
+        }
+    };
+
+    res.render("home", { songOne }); // Send songOne to EJS
 });
 
 
@@ -32,6 +27,7 @@ app.post("/submit", async (req, res) => {
     try {
         console.log(req.body.songname); 
         const result = await axios.get(`https://v1.nocodeapi.com/blueskies_7/spotify/kONOGccGlvvUnnvv/search?q=${req.body.songname}&type=track`);
+        console.log("API Response:", result.data); // Debugging
         const songData = result.data;
         
         if (!songData.tracks.items.length) {
@@ -48,3 +44,5 @@ app.post("/submit", async (req, res) => {
 
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+
+
