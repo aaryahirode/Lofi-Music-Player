@@ -39,20 +39,6 @@ play.addEventListener("click", () => {
     }
 });
 
-// document.addEventListener("DOMContentLoaded", function () {
-//     const lyricsButton = document.querySelector(".lyrics");
-//     const closeButton = document.getElementById("closeLyrics");
-//     const lyricsBox = document.getElementById("lyricsBox");
-
-//     lyricsButton.addEventListener("click", function () {
-//         lyricsBox.style.display = "block";
-//     });
-
-//     closeButton.addEventListener("click", function () {
-//         lyricsBox.style.display = "none";
-//     });
-// });
-
 document.addEventListener("DOMContentLoaded", function () {
     const lyricsButton = document.querySelector(".lyrics");
     const closeButton = document.getElementById("closeLyrics");

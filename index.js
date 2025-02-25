@@ -1,15 +1,25 @@
 import express from "express"
 import axios from "axios";
 import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+// const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const SPOTIFY_API_URL = process.env.SPOTIFY_API_URL;
 
-app.use(express.static("public"));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
+// app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
@@ -24,26 +34,6 @@ app.get("/", (req, res) => {
 
     res.render("home", { songOne,lyrics: "" }); // Send songOne to EJS
 });
-
-
-// app.post("/submit", async (req, res) => {
-//     try {
-//         console.log(req.body.songname); 
-//         const result = await axios.get(`${SPOTIFY_API_URL}?q=${req.body.songname}&type=track`);
-//         console.log("API Response:", result.data); // Debugging
-//         const songData = result.data;
-        
-//         if (!songData.tracks.items.length) {
-//             return res.render("home", { songOne: null });
-//         }
-
-//         const one = songData.tracks.items[0];
-//         res.render("home", { songOne: one }); // Pass `songOne` to EJS
-//     } catch (error) {
-//         console.error("Error fetching song:", error);
-//         res.render("home", { songOne: null });
-//     }
-// });
 
 app.post("/submit", async (req, res) => {
     try {
@@ -77,8 +67,6 @@ app.post("/submit", async (req, res) => {
     }
 });
 
-
-
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
 
-
+export default app; 
