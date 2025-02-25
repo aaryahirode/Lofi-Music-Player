@@ -24,7 +24,7 @@
                 <% if (songOne && songOne.album && songOne.album.images.length > 0) { %>
                     <img class="start-image" src="<%= songOne.album.images[0].url %>">
                 <% } else { %>
-                    <img class="start-image" src="images/cover-unavailable.png" alt="Default Album Cover">
+                    <img class="start-image" src="images/cover-unavailable.jpeg" alt="Default Album Cover">
                 <% } %>
             </div>
             <div class="song">
@@ -70,11 +70,12 @@
             <div class="lyrics-box" id="lyricsBox">
                 <button class="back-btn" id="closeLyrics">← Back</button>
                 <h2>Lyrics</h2>
-                <p>
-                    Why you gotta be like that?  
-                    Why you gotta be like that?  
-                    Why you gotta be like that?  
-                    I just set the record, baby you are not the one (not the one)  
+                <p id="lyricsContent">
+                    <% if (lyrics) { %>
+                        <%= lyrics %>
+                    <% } else { %>
+                        Lyrics not available.
+                    <% } %>
                 </p>
             </div>
         </div>
