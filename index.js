@@ -7,7 +7,6 @@ import { fileURLToPath } from "url";
 dotenv.config();
 
 const app = express();
-// const PORT = 3000;
 const PORT = process.env.PORT || 3000;
 
 const SPOTIFY_API_URL = process.env.SPOTIFY_API_URL;
@@ -18,10 +17,9 @@ const __dirname = path.dirname(__filename);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-// app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
-app.set("view engine", "ejs");
+
 
 app.get("/", (req, res) => {
     const songOne = {
@@ -32,8 +30,9 @@ app.get("/", (req, res) => {
         }
     };
 
-    res.render("home", { songOne,lyrics: "" }); // Send songOne to EJS
+    res.render("home", { songOne,lyrics: "" });
 });
+
 
 app.post("/submit", async (req, res) => {
     try {
@@ -49,7 +48,6 @@ app.post("/submit", async (req, res) => {
 
         const one = songData.tracks.items[0];
 
-        // Fetch lyrics from Lyrics.ovh
         let lyrics = null;
         try {
             const lyricsResponse = await axios.get(`https://api.lyrics.ovh/v1/${one.artists[0].name}/${one.name}`);
@@ -59,7 +57,6 @@ app.post("/submit", async (req, res) => {
             lyrics = "Lyrics not available.";
         }
 
-        // Render home.ejs with song data and lyrics
         res.render("home", { songOne: one, lyrics });
     } catch (error) {
         console.error("Error fetching song:", error);

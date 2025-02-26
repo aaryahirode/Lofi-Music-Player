@@ -12,6 +12,7 @@ const progressBar = document.getElementById("progressBar");
 const currentTimeDisplay = document.getElementById("currentTime");
 const durationDisplay = document.getElementById("duration");
 
+// like - unlike toggle
 like.addEventListener("click", () => {
     if (like.classList.contains("liking")) {
         like.innerHTML = unlikedSVG;
@@ -21,6 +22,8 @@ like.addEventListener("click", () => {
         like.classList.add("liking");
     }
 });
+
+// play -pause toggle
 play.addEventListener("click", () => {
     if (!audio.src || audio.src === window.location.href) {
         alert("No audio file selected!");
@@ -39,6 +42,7 @@ play.addEventListener("click", () => {
     }
 });
 
+// lyrics button - toggle
 document.addEventListener("DOMContentLoaded", function () {
     const lyricsButton = document.querySelector(".lyrics");
     const closeButton = document.getElementById("closeLyrics");
@@ -53,13 +57,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
+// change theme
 document.addEventListener("DOMContentLoaded", () => {
     const themeToggleBtn = document.getElementById("theme-toggle");
     const body = document.body;
     const box = document.querySelector(".box");
 
-    // Check Local Storage for Theme Preference
     if (localStorage.getItem("theme") === "dark") {
         body.classList.add("dark-mode");
         box.classList.add("dark-box");
@@ -70,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
         body.classList.toggle("dark-mode");
         box.classList.toggle("dark-box");
 
-        // Save Theme Preference
         if (body.classList.contains("dark-mode")) {
             localStorage.setItem("theme", "dark");
             themeToggleBtn.innerText = "☀ Change Theme";
@@ -81,21 +83,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-
+// volume button up - down
 document.addEventListener("DOMContentLoaded", () => {
     const audio = document.getElementById("audioPlayer");
     const volumeUp = document.getElementById("volumeUp");
     const volumeDown = document.getElementById("volumeDown");
 
-    // Set initial volume to 50%
     audio.volume = 0.5;
 
-    // Function to update volume display
     const updateVolumeDisplay = () => {
         console.log(`🔊 Volume: ${Math.round(audio.volume * 100)}%`);
     };
 
-    // Function to increase volume
     volumeUp.addEventListener("click", () => {
         if (audio.volume < 1.0) {
             audio.volume = Math.min(1.0, audio.volume + 0.1);
@@ -103,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Function to decrease volume
     volumeDown.addEventListener("click", () => {
         if (audio.volume > 0.0) {
             audio.volume = Math.max(0.0, audio.volume - 0.1);
@@ -112,32 +110,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// audio duration
 audio.addEventListener("loadedmetadata", () => {
-    console.log("Audio Duration:", audio.duration); // Debugging
+    console.log("Audio Duration:", audio.duration);
     if (!isNaN(audio.duration)) {
         progressBar.max = audio.duration;
         durationDisplay.textContent = formatTime(audio.duration);
     }
 });
 
-// Update slider as audio plays
+// update slider as audio plays
 audio.addEventListener("timeupdate", () => {
     progressBar.value = audio.currentTime;
     currentTimeDisplay.textContent = formatTime(audio.currentTime);
 });
 
-// Allow user to seek
+// allow user to seek
 progressBar.addEventListener("input", () => {
     audio.currentTime = progressBar.value;
 });
 
-// Reset play button when audio ends
+// reset play button when audio ends
 audio.addEventListener("ended", () => {
     play.innerHTML = playSVG;
     play.classList.remove("playing");
 });
 
-// Format time (e.g., 2:34)
+// format time
 function formatTime(time) {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60).toString().padStart(2, "0");
